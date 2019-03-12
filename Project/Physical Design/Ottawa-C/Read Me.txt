@@ -1,0 +1,44 @@
+Files obtained from:
+
+http://data.ottawa.ca/dataset/79bfeb97-fea5-4725-82dc-3074b768cc96/resource/aeb4ec75-2225-4fc5-9844-f937fcd04777/download/h2017collisionsfinal.xlsx
+
+http://data.ottawa.ca/en/dataset/adae2dd7-43a1-4e3f-b597-44f7dd10f6a2/resource/4b6ba005-1d8a-47d3-91ff-c887c7a24bcb/download/allcollisions2016.csv
+
+http://data.ottawa.ca/en/dataset/43383343-8071-4dd7-9090-410c2b78af43/resource/952e190d-4b53-4baf-87c2-2f5bfb554ed3/download/allcollisions2015.csv
+
+http://data.ottawa.ca/en/dataset/1e23c931-428c-4e8f-af89-cdb59162469b/resource/a5b99b37-f046-490d-a0c7-7e3874d61b25/download/allcollisions2014.csv
+
+http://data.ottawa.ca/dataset/b04f3c30-a0b4-431a-b04c-6a0155b4a298/resource/a4664e63-b372-475b-886b-3d2db0ffe967/download/allcollisions2013.csv
+-------------------------------------------------------------------------------------------------------------------------------------------------
+->TRY THIS FIRST:
+To convert X Y coordinates to Latitude and longitude degrees given the (centroid) origin -> MTM Zone 9, NAD83 (CSRS); this information is specified in the links for the data sets.
+
+In the tool below "MTM Zone 9" is synonymous with "ON-9". Use the 2017 data to test out the conversion since it includes both X-Y and latitude-longitude (use as answer key).
+
+Partially complete instructions: https://canadiangis.com/trx-coordinate-transformation-tool.php
+Tool: http://webapp.geod.nrcan.gc.ca/geod/tools-outils/trx.php
+
+A Procedure to convert:
+
+FIRST, select the "batch processing" option, to convert X Y coordinates to degrees-minutes-seconds (DMS) latitude-longitude.
+SECOND, prepare your csv EXACTLY as shown in the "2017_xy_mtm_input.csv" file.
+THIRD, set the online tool's settings as seen in the "Procedure to convert X_Y to lat_lon.png"
+FOURTH, upload your utf8 encoded csv file from step 2.
+FIFTH, click "send file" button, and wait for the tool to compute the result and your browser to download the csv. See the "2017_conversion_output.csv" file.
+
+Since the tool keeps the order of the coordinates you can copy & paste the columns from the output file back into your data sets, before importing them into a DBMS.
+
+------>IN ADDITION
+You may find the following useful if you need to convert DMS to decimal latitude-longitude values, use the formula noted on the site:
+https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees
+
+Use the online tool to familiarize yourself with the process and double check sample values from the Ottawa 2017 data set to check correctness of the whole process since the set has both X Y and latitude-longitude columns. IMPORTANT, notice in the online tool and png image that the seconds value is INTEGER, when you apply the formula yourself (SQL, EXCEL, Python,  R, scala,...) you should keep the decimals from STEP 1 and appropriately round the result.
+
+THIRD, if in doubt, there are other sources and methods of accomplishing the task to be found online too.
+
+--------->ALTERNATIVELY (last resort)--------------------------->
+
+A Procedure to estimate:
+
+While converting is the preferred approach, if it is not working out another problem solving approach is to estimate the latitude-longitude values in the 2014 to 2016 data from those in the 2017 data set. To do this, recall from the DEMO on FEBRUARY 15, creating a lookup of distinct values using the "SELECT DISTINCT ON X, Y FROM 2017data..." sql construct to build a look up table. Then,  create another look up table to pair up the X Y values of 2017 with those in the other data sets; to do this you will need to decide how to find the better match among possibly many (same task to pair accidents with a weather station). Hint: consider pairing up X-Y values in the 2014 -16 data with all similarly lexicographically similar X-Y values in 2017, in a third column calculate the length of the matched X and Y, then choose the row for each X-Y in 2014-16 which has the longest length for X and Y in 2017 that was matched; this is your best estimate from the data.
+
