@@ -10,8 +10,8 @@ DB_U = "data_admin_16"
 DB_P = "password"
 
 
-#engine = create_engine('postgresql://'+DB_U+ ':' + DB_P + '@localhost/5432/'+ DB)
-engine = ("postgresql+psycopg2://data_admin_16:password@127.0.0.1:5432/group_16")
+engine = ("postgresql+psycopg2://"+DB_U+":"+ DB_P + "@127.0.0.1:5432/"+ DB)
+#engine = ("postgresql+psycopg2://data_admin_16:password@127.0.0.1:5432/group_16")
 session = sessionmaker()
 session.configure(bind=engine)
 
