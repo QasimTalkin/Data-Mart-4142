@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS hours(
     hour_key serial PRIMARY KEY,
     hour_start timetz NOT NULL,
     hour_end timetz NOT NULL,
-    current_date date NOT NULL,
+    currentDate date NOT NULL,
     day_of_week char(3) NOT NULL,
     month_of_year char(3) NOT NULL,
     current_year int NOT NULL,

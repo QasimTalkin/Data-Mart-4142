@@ -35,6 +35,14 @@ def insert_accident_tbl(ac_data_frame):
     accident_df.columns = accident_columns
     accident_df['accident_key'] = range(0, len(accident_df))
     accident_df.to_sql("accidents", engine, index=False, if_exists='replace')
+
+#accident flat file construction and adding data onto Db
+def insert_accident_tbl(ac_data_frame):
+    accident_columns = ['accident_time', 'environment', 'road_surface', 'traffic_control', 'impact_type', 'visibility']
+    accident_df = ac_data_frame[['Time', 'Environment', 'Road_Surface', 'Traffic_Control', 'Impact_type', 'Light' ]].copy()
+    accident_df.columns = accident_columns
+    accident_df['accident_key'] = range(0, len(accident_df))
+    accident_df.to_sql("accidents", engine, index=False, if_exists='replace')
   
 
 if __name__ == "__main__":
