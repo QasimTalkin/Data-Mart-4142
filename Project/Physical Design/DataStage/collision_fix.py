@@ -16,17 +16,19 @@ engine = ("postgresql+psycopg2://"+DB_U+":"+ DB_P + "@127.0.0.1:5432/"+ DB)
 session = sessionmaker()
 session.configure(bind=engine)
 
+
 def main():    
    print("------------MAIN----------")
-   '''sample_df = pandas.DataFrame()
-   sample_df['current_date'] = pandas.date_range(start='1/1/2017', end='31/12/2017', freq='H')
-   print("Hello", sample_df.shape) '''
-   
-   #create_acc_df()
+   '''
+   sample_df = pandas.DataFrame()
+   hour_df['current_date'] = pandas.date_range(start='1/1/2017', end='31/12/2017', freq='H')
+   print("Hello", sample_df[:8])
+   '''
+   create_acc_df()
    create_hour_df()
    print("--------END MAIN----------")
 
-   
+
 def create_acc_df():
     ac_data_frame = pandas.read_csv(os.path.abspath("h2017collisionsfinal.csv"), header = 0, encoding = 'ISO-8859-1')
     ac_16_df = pandas.read_csv(os.path.abspath("2016collisionsfinal.csv"), header = 0, encoding = 'ISO-8859-1')
@@ -37,10 +39,11 @@ def create_acc_df():
     ac_data_frame = ac_data_frame.append(ac_14_df, sort=False)
 
  #------------- create excel and instert into DB-------------   
-    ac_data_frame.to_excel("collision_final.xlsx")
+    ac_data_frame.to_excel("full_collision_final.xlsx")
     insert_accident_tbl(ac_data_frame)
     insert_location_tbl(ac_data_frame)
 #------------- create excel and insert into DB-------------    
+
 
 #accident flat file construction
 def insert_accident_tbl(ac_data_frame):
@@ -55,6 +58,7 @@ def insert_accident_tbl(ac_data_frame):
     print('Accident Processed (Rows, Cols) : ', accident_df.shape) 
     accident_df.to_sql("accidents", engine, index=False, if_exists='replace') #replace or append or fail
     print('Accident Table added to DB')
+    accident_df.to_excel('accident_final.xlsx')
 
 
 #adding data onto Db
@@ -92,21 +96,24 @@ def create_hour_df():
         else:
             Type_new_hol_flags[index]=hol_flag
             Type_new_hol_name[index] = 'Not a holiday'
+    hour_df['current_year'] = pandas.to_datetime(hour_df['currentdate']).apply(lambda x: x.strftime('%Y'))
     # inserting new column with values of holiday flag list made above         
     hour_df.insert(5, "is_holiday", Type_new_hol_flags)
     # inserting new column with values of holiday name list made above         
     hour_df.insert(6, "holiday_name", Type_new_hol_name)
-    
     #hour start
     hour_df['hour_start'] = hour_df['currentdate'].apply(lambda x: x.strftime('%H:%M:%S'))
     #hour end = hour start + 1hr
-    hour_df['hour_end'] = hour_df['hour_start']  + timedelta(hours=1)
+    hour_df['hour_end'] = hour_df['currentdate']  + timedelta(hours=1)
+    hour_df['hour_end'] = pandas.to_datetime(hour_df['hour_end']).apply(lambda x: x.strftime('%H:%M:%S'))
     #clean date
     hour_df['currentdate'] = pandas.to_datetime(hour_df['currentdate']).apply(lambda x: x.strftime('%Y-%m-%d'))
     #hour key build based on numbe of rows. 
     hour_df['hour_key'] = range(0, len(hour_df))  
-    hour_df.to_excel("hour_final.xlsx")
     print('Hour Table Processed (Rows, Cols) : ',  hour_df.shape)
+    hour_df.to_sql("hours", engine, index=False, if_exists='replace') #replace or append or fail
+    print('Hour Table added to DB')
+    hour_df.to_excel("hour_final.xlsx")
 
 if __name__ == "__main__":
     main()
