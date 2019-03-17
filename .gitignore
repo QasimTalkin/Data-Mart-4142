@@ -18,3 +18,4 @@ bin-release/
 # information for Eclipse / Flash Builder.
 
 Project/Physical Design/.vscode/settings.json
+Project/Physical Design/DataStage/Ontario_Temp.csv
