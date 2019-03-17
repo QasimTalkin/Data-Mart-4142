@@ -1,4 +1,4 @@
-Record,Location,X,Y,Longitude,Latitude,Date,Time,Environment,Road_Surface,Traffic_Control,Collision_Location,Light,Collision_Classification,Impact_type,Neighborhood
+Record,Location,X,Y,lon,lat,Date,Time,Environment,Road_Surface,Traffic_Control,Collision_Location,Light,Collision_Classification,Impact_type,Neighborhood
 1,210 W OF MERIVALE RD @ WEST HUNT CLUB RD,365431.7034,5021829.496,-75.72644,45.33379,2017-08-22,6:10:00 PM,01 - Clear,02 - Wet,01 - Traffic signal,02 - Intersection related,01 - Daylight,02 - Non-fatal injury,03 - Rear end,Merivale Gardens - Grenfell Glen - Pineglen - Country Place
 2,210 W OF MERIVALE RD @ WEST HUNT CLUB RD,365430.6371,5021830.432,-75.72645,45.3338,2017-10-19,12:20:00 PM,01 - Clear,01 - Dry,01 - Traffic signal,03 - At intersection,01 - Daylight,03 - P.D. only,05 - Turning movement,Tanglewood
 3,210 W OF MERIVALE RD @ WEST HUNT CLUB RD,365431.7011,5021829.495,-75.72644,45.33379,2017-01-31,8:09:00 AM,01 - Clear,01 - Dry,01 - Traffic signal,02 - Intersection related,01 - Daylight,02 - Non-fatal injury,03 - Rear end,Merivale Gardens - Grenfell Glen - Pineglen - Country Place
